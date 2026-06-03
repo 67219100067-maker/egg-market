@@ -1,0 +1,78 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int      @id @default(autoincrement())
+  username String   @unique
+  password String
+  name     String?
+}
+
+model Product {
+  id          Int           @id @default(autoincrement())
+  name        String
+  category    String        // เช่น ไข่ไก่, ไข่เป็ด, ไข่เค็ม
+  price       Float         // ราคาขาย
+  costPrice   Float         // ราคาทุน
+  stock       Int           @default(0)
+  imageUrl    String?
+  isBestSeller Boolean      @default(false)
+  isPromotion Boolean       @default(false)
+  orderItems  OrderItem[]
+  lossRecords LossRecord[]
+}
+
+model Order {
+  id              Int           @id @default(autoincrement())
+  customerName    String?
+  storeName       String?
+  address         String?
+  phone           String?
+  email           String?
+  specialRequest  String?
+  paymentMethod   String        // COD, BANK_TRANSFER
+  slipImageUrl    String?
+  status          String        // PENDING, PROCESSING, SHIPPED, DELIVERED, CANCELLED
+  totalAmount     Float
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  items           OrderItem[]
+}
+
+model OrderItem {
+  id        Int      @id @default(autoincrement())
+  order     Order    @relation(fields: [orderId], references: [id])
+  orderId   Int
+  product   Product  @relation(fields: [productId], references: [id])
+  productId Int
+  quantity  Int
+  price     Float    // ราคา ณ ตอนที่ซื้อ
+}
+
+model LossRecord {
+  id          Int      @id @default(autoincrement())
+  date        DateTime @default(now())
+  product     Product  @relation(fields: [productId], references: [id])
+  productId   Int
+  quantity    Int
+  costLoss    Float    // ต้นทุนที่เสียไป (quantity * costPrice)
+  reason      String?
+}
+
+model Review {
+  id           Int      @id @default(autoincrement())
+  customerName String
+  comment      String
+  rating       Int      @default(5)
+  adminReply   String?
+  createdAt    DateTime @default(now())
+}
