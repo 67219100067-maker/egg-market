@@ -51,7 +51,8 @@ app.get('/api/products', async (req, res) => {
     });
     res.json(products);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch products' });
+    console.error("Products GET Error:", error);
+    res.status(500).json({ error: 'Failed to fetch products', details: error.message });
   }
 });
 
@@ -132,7 +133,8 @@ app.get('/api/orders', async (req, res) => {
     });
     res.json(orders);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch orders' });
+    console.error("Orders GET Error:", error);
+    res.status(500).json({ error: 'Failed to fetch orders', details: error.message });
   }
 });
 
