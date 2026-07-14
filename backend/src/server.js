@@ -41,6 +41,21 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
+const { exec } = require('child_process');
+
+// ========================
+// DB INIT API (Run once at runtime)
+// ========================
+app.get('/api/init-db', (req, res) => {
+  exec('npx prisma db push --accept-data-loss', (error, stdout, stderr) => {
+    if (error) {
+      console.error(`exec error: ${error}`);
+      return res.status(500).json({ error: 'Failed to init DB', details: error.message, stderr });
+    }
+    res.json({ message: 'Database initialized successfully', stdout });
+  });
+});
+
 // ========================
 // PRODUCTS API
 // ========================
