@@ -152,7 +152,7 @@ export default function Checkout({ customerName }) {
           {formData.paymentMethod === 'BANK_TRANSFER' && (
             <div className="glass-card" style={{ padding: '1rem', marginBottom: '1.5rem', backgroundColor: 'rgba(245, 158, 11, 0.1)', border: '1px dashed var(--primary-color)' }}>
               <h4>บัญชีธนาคารสำหรับโอนเงิน</h4>
-              <p>เลขบัญชี: <strong>775-0-55570-6</strong><br/>ชื่อบัญชี: น.ส. อริศรา ยสยิ่งยงค์</p>
+              <p>ธนาคารกรุงไทย (KTB)<br/>เลขบัญชี: <strong>775-0-55570-6</strong><br/>ชื่อบัญชี: น.ส. อริศรา ยศยิ่งยงค์</p>
               <div className="input-group" style={{ marginTop: '1rem' }}>
                 <label>อัปโหลดสลิป *</label>
                 <input type="file" accept="image/*" className="input-field" onChange={handleFileChange} required />
