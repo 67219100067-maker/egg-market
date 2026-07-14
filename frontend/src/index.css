@@ -396,6 +396,10 @@ tr:hover td {
 }
 
 /* Print Receipt Styles */
+#printable-receipt {
+  display: none;
+}
+
 @media print {
   body * {
     visibility: hidden;
@@ -404,6 +408,7 @@ tr:hover td {
     visibility: visible;
   }
   #printable-receipt {
+    display: block !important;
     position: absolute;
     left: 0;
     top: 0;

@@ -203,7 +203,7 @@ export default function OrderManagement() {
 
       {/* Printable Receipt */}
       {selectedOrder && (
-        <div id="printable-receipt" style={{ display: 'none' }}>
+        <div id="printable-receipt">
           <div style={{ textAlign: 'center', marginBottom: '10px' }}>
             <h3 style={{ margin: 0 }}>ร้านไข่ EggMarket</h3>
             <p style={{ margin: 0, fontSize: '10px' }}>ใบเสร็จรับเงิน / ใบส่งของ</p>
