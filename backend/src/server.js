@@ -30,14 +30,22 @@ if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir);
 }
 
-// Multer Setup
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, uploadDir);
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
+// Multer Setup with Cloudinary
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'egg_market_uploads',
+    allowedFormats: ['jpg', 'png', 'jpeg', 'webp'],
   },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + '-' + file.originalname.replace(/\s+/g, '_'));
-  }
 });
 const upload = multer({ storage });
 
@@ -74,7 +82,7 @@ app.get('/api/products', async (req, res) => {
 app.post('/api/products', upload.single('image'), async (req, res) => {
   try {
     const { name, category, price, costPrice, stock, isBestSeller, isPromotion } = req.body;
-    const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
+    const imageUrl = req.file ? req.file.path : null;
 
     const product = await prisma.product.create({
       data: {
@@ -111,7 +119,7 @@ app.put('/api/products/:id', upload.single('image'), async (req, res) => {
     };
 
     if (req.file) {
-      updateData.imageUrl = `/uploads/${req.file.filename}`;
+      updateData.imageUrl = req.file.path;
     }
 
     const product = await prisma.product.update({
@@ -178,7 +186,7 @@ app.post('/api/orders', upload.single('slipImage'), async (req, res) => {
   try {
     const { customerName, address, phone, email, specialRequest, paymentMethod, totalAmount, items } = req.body;
     const parsedItems = typeof items === 'string' ? JSON.parse(items) : items;
-    const slipUrl = req.file ? `/uploads/${req.file.filename}` : null;
+    const slipUrl = req.file ? req.file.path : null;
 
     const order = await prisma.order.create({
       data: {
