@@ -126,7 +126,7 @@ export default function ProductManagement() {
               <tr key={product.id} style={{ borderBottom: '1px solid rgba(0,0,0,0.05)' }}>
                 <td style={{ padding: '1rem', width: '80px' }}>
                   {product.imageUrl ? (
-                    <img src={`${import.meta.env.VITE_API_URL}${product.imageUrl}`} alt="product" style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '4px' }} />
+                    <img src={product.imageUrl.startsWith('http') ? product.imageUrl : `${import.meta.env.VITE_API_URL}${product.imageUrl}`} alt="product" style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '4px' }} />
                   ) : (
                     <div style={{ width: '50px', height: '50px', backgroundColor: 'rgba(0,0,0,0.1)', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.7rem', color: 'var(--text-muted)' }}>ไม่มีรูป</div>
                   )}

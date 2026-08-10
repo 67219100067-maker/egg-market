@@ -109,13 +109,11 @@ export default function OrderManagement() {
                 <p><strong>สถานะ:</strong> <span style={{ color: STATUS_MAP[selectedOrder.status]?.color, fontWeight: 'bold' }}>{STATUS_MAP[selectedOrder.status]?.label || selectedOrder.status}</span></p>
                 
                 {selectedOrder.slipImageUrl && (
-                  <div style={{ marginTop: '1rem' }}>
-                    <strong>สลิปโอนเงิน:</strong>
-                    <div style={{ marginTop: '0.5rem' }}>
-                      <a href={`${import.meta.env.VITE_API_URL}${selectedOrder.slipImageUrl}`} target="_blank" rel="noreferrer">
-                        <img src={`${import.meta.env.VITE_API_URL}${selectedOrder.slipImageUrl}`} alt="slip" style={{ maxWidth: '150px', borderRadius: '4px', border: '1px solid var(--glass-border)' }} />
-                      </a>
-                    </div>
+                  <div style={{ marginBottom: '1.5rem', textAlign: 'center' }}>
+                    <p style={{ margin: '0 0 0.5rem 0', fontWeight: '500', color: 'var(--text-secondary)' }}>หลักฐานการชำระเงิน:</p>
+                    <a href={selectedOrder.slipImageUrl.startsWith('http') ? selectedOrder.slipImageUrl : `${import.meta.env.VITE_API_URL}${selectedOrder.slipImageUrl}`} target="_blank" rel="noreferrer">
+                      <img src={selectedOrder.slipImageUrl.startsWith('http') ? selectedOrder.slipImageUrl : `${import.meta.env.VITE_API_URL}${selectedOrder.slipImageUrl}`} alt="slip" style={{ maxWidth: '150px', borderRadius: '4px', border: '1px solid var(--glass-border)' }} />
+                    </a>
                   </div>
                 )}
               </div>

@@ -88,7 +88,7 @@ export default function StoreFront({ customerName }) {
             
             <div style={{ height: '150px', backgroundColor: 'rgba(0,0,0,0.05)', borderRadius: '0.5rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
               {product.imageUrl ? (
-                <img src={`${import.meta.env.VITE_API_URL}${product.imageUrl}`} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <img src={product.imageUrl.startsWith('http') ? product.imageUrl : `${import.meta.env.VITE_API_URL}${product.imageUrl}`} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               ) : (
                 <span style={{ color: 'var(--text-muted)' }}>[ ไม่มีรูปภาพ ]</span>
               )}
